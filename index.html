@@ -5,153 +5,154 @@
 <title>חידון חלל – כיתה ב</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-    }
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        background-image: url("https://source.unsplash.com/1600x900/?space,galaxy");
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 1.5s ease;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    background-image: url("https://source.unsplash.com/1600x900/?space,galaxy,stars");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fade 1.5s ease;
+}
 
-    .quiz-box {
-        background: white;
-        width: 70%;
-        max-width: 700px;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        text-align: center;
-        animation: slideUp 0.8s ease;
-    }
+.quiz-box {
+    width: 70%;
+    max-width: 720px;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: pop 0.8s ease;
+}
 
-    h1 {
-        margin-bottom: 20px;
-    }
+.space-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
 
-    .question {
-        font-size: 28px;
-        margin-bottom: 25px;
-    }
+.question {
+    font-size: 30px;
+    margin: 20px 0;
+}
 
-    .answers button {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        margin: 10px 0;
-        font-size: 20px;
-        border-radius: 12px;
-        border: none;
-        cursor: pointer;
-        background: #f1f1f1;
-        transition: transform 0.2s, background 0.2s;
-    }
+.answers button {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 22px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    background: #f2f2f2;
+    transition: transform 0.2s, background 0.2s;
+}
 
-    .answers button:hover {
-        background: #e0e0e0;
-        transform: scale(1.03);
-    }
+.answers button:hover {
+    background: #e0e0e0;
+    transform: scale(1.03);
+}
 
-    .blue-btn {
-        background: #1e88e5;
-        color: white;
-        font-size: 22px;
-        padding: 15px 30px;
-        border-radius: 15px;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+.blue-btn {
+    background: #1e88e5;
+    color: white;
+    font-size: 22px;
+    padding: 15px 35px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+}
 
-    .blue-btn:hover {
-        transform: scale(1.05);
-    }
+.blue-btn:hover {
+    transform: scale(1.05);
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+@keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
 
-    @keyframes slideUp {
-        from { transform: translateY(40px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
+@keyframes pop {
+    from {transform: scale(0.9); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="quiz-box" id="quiz">
-    <h1>🚀 חידון חלל</h1>
+    <div class="space-icon" id="icon">🚀</div>
     <div class="question" id="question"></div>
     <div class="answers" id="answers"></div>
 </div>
 
 <script>
+const icons = ["🚀","🪐","🌙","⭐","👨‍🚀"];
+
 const questions = [
-    { q: "3 + 4 = ?", a: 7 },
-    { q: "10 − 6 = ?", a: 4 },
-    { q: "5 + 5 = ?", a: 10 },
-    { q: "8 − 3 = ?", a: 5 },
-    { q: "6 + 2 = ?", a: 8 },
-    { q: "9 − 4 = ?", a: 5 },
+    { q: "2 + 3 = ?", a: 5 },
+    { q: "6 − 2 = ?", a: 4 },
+    { q: "4 + 4 = ?", a: 8 },
+    { q: "9 − 3 = ?", a: 6 },
+    { q: "5 + 2 = ?", a: 7 },
+    { q: "8 − 4 = ?", a: 4 },
+    { q: "3 + 6 = ?", a: 9 },
+    { q: "10 − 5 = ?", a: 5 },
     { q: "7 + 1 = ?", a: 8 },
-    { q: "10 − 2 = ?", a: 8 },
-    { q: "4 + 3 = ?", a: 7 },
     { q: "6 − 1 = ?", a: 5 },
-    { q: "2 + 6 = ?", a: 8 },
-    { q: "9 − 5 = ?", a: 4 },
-    { q: "3 + 5 = ?", a: 8 },
-    { q: "8 − 2 = ?", a: 6 },
-    { q: "7 + 2 = ?", a: 9 }
+    { q: "4 + 5 = ?", a: 9 },
+    { q: "9 − 4 = ?", a: 5 },
+    { q: "2 + 7 = ?", a: 9 },
+    { q: "8 − 3 = ?", a: 5 },
+    { q: "5 + 5 = ?", a: 10 }
 ];
 
-let index = 0;
+let i = 0;
 let score = 0;
 
 function showQuestion() {
-    const q = questions[index];
-    document.getElementById("question").innerText = q.q;
+    document.getElementById("icon").innerText =
+        icons[Math.floor(Math.random() * icons.length)];
 
-    const answersDiv = document.getElementById("answers");
-    answersDiv.innerHTML = "";
+    document.getElementById("question").innerText = questions[i].q;
 
-    let options = [q.a, q.a + 1, q.a - 1, q.a + 2]
+    const answers = document.getElementById("answers");
+    answers.innerHTML = "";
+
+    let correct = questions[i].a;
+    let options = [correct, correct+1, correct-1, correct+2]
         .sort(() => Math.random() - 0.5);
 
     options.forEach(num => {
         const btn = document.createElement("button");
         btn.innerText = num;
         btn.onclick = () => {
-            if (num === q.a) score++;
-            index++;
-            index < questions.length ? showQuestion() : showResult();
+            if (num === correct) score++;
+            i++;
+            i < questions.length ? showQuestion() : showResult();
         };
-        answersDiv.appendChild(btn);
+        answers.appendChild(btn);
     });
 }
 
 function showResult() {
     document.getElementById("quiz").innerHTML = `
-        <h1>✨ סיימת!</h1>
-        <p style="font-size:26px">ענית נכון על <b>${score}</b> מתוך <b>${questions.length}</b></p>
+        <div class="space-icon">🎉</div>
+        <h2>סיימת את החידון!</h2>
+        <p style="font-size:26px">
+        ענית נכון על <b>${score}</b> מתוך <b>${questions.length}</b>
+        </p>
         <br>
-        <button class="blue-btn" onclick="restart()">לעשות מחדש?</button>
+        <button class="blue-btn" onclick="location.reload()">לעשות מחדש?</button>
     `;
-}
-
-function restart() {
-    index = 0;
-    score = 0;
-    location.reload();
 }
 
 showQuestion();
