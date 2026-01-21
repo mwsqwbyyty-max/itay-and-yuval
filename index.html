@@ -12,7 +12,6 @@ body, html {
     overflow: hidden;
 }
 body {
-    /* רקע התמונה שלך */
     background-image: url("https://m.media-amazon.com/images/I/81ulx1Dk+HL._AC_UF894,1000_QL80_.jpg");
     background-size: cover;
     background-position: center;
@@ -44,16 +43,9 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     margin-top: 10px;
 }
 .blue-btn:hover { transform: scale(1.05); }
-
 .correct { background: #4CAF50 !important; color: white !important; }
 .wrong { background: #f44336 !important; color: white !important; }
-
-.feedback {
-    margin-top: 10px;
-    font-size: 22px;
-    font-weight: bold;
-}
-
+.feedback { margin-top: 10px; font-size: 22px; font-weight: bold; }
 /* סידור הכפתורים בתשובות */
 .answers {
     display: flex;
@@ -62,13 +54,8 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     gap: 15px;
     margin-top: 20px;
 }
-.answers button {
-    flex: 1 1 40%;
-    max-width: 180px;
-}
-
+.answers button { flex: 1 1 40%; max-width: 180px; }
 #continueBtn { display: none; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
@@ -89,21 +76,21 @@ h1 { font-size: 32px; margin-bottom: 20px; }
 
 <script>
 const questions = [
-    { q: "2 + 3 = ?", a: 5 },
-    { q: "6 − 2 = ?", a: 4 },
-    { q: "4 + 4 = ?", a: 8 },
-    { q: "9 − 3 = ?", a: 6 },
-    { q: "5 + 2 = ?", a: 7 },
-    { q: "8 − 4 = ?", a: 4 },
-    { q: "3 + 6 = ?", a: 9 },
-    { q: "10 − 5 = ?", a: 5 },
-    { q: "7 + 1 = ?", a: 8 },
-    { q: "6 − 1 = ?", a: 5 },
-    { q: "4 + 5 = ?", a: 9 },
-    { q: "9 − 4 = ?", a: 5 },
-    { q: "2 + 7 = ?", a: 9 },
+    { q: "7 + 8 = ?", a: 15 },
+    { q: "12 − 5 = ?", a: 7 },
+    { q: "3 × 2 = ?", a: 6 },
+    { q: "מי גדול יותר: 9 או 7?", a: 9 },
+    { q: "אם יש 3 כוכבים וכל כוכב נותן 2 נקודות, כמה נקודות בסך הכל?", a: 6 },
+    { q: "5 + 9 = ?", a: 14 },
     { q: "8 − 3 = ?", a: 5 },
-    { q: "5 + 5 = ?", a: 10 }
+    { q: "4 × 2 = ?", a: 8 },
+    { q: "מי קטן יותר: 6 או 11?", a: 6 },
+    { q: "אם יש 5 חלליות וכל חללית נושאת 3 אסטרונאוטים, כמה אסטרונאוטים יש בסך הכל?", a: 15 },
+    { q: "10 + 7 = ?", a: 17 },
+    { q: "18 − 9 = ?", a: 9 },
+    { q: "2 × 5 = ?", a: 10 },
+    { q: "אם יש 12 כוכבים והספקנו לחלק 4 מהם לכל ילד, כמה ילדים קיבלו?", a: 3 },
+    { q: "6 + 7 − 5 = ?", a: 8 }
 ];
 
 let current = 0;
