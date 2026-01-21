@@ -52,18 +52,17 @@ h1 { font-size: 32px; margin-bottom: 20px; }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes pop { from { transform: scale(0.9); opacity:0; } to { transform: scale(1); opacity:1; } }
 
-/* קונפטי */
+/* קונפטי לכל המסך */
 .confetti {
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: red;
     border-radius: 50%;
-    animation: fall 1s linear forwards;
+    animation: fall 2s linear forwards;
 }
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity:1; }
-    100% { transform: translateY(-80px) rotate(360deg); opacity:0; }
+    100% { transform: translateY(200px) rotate(360deg); opacity:0; }
 }
 
 /* תו קטן מעל התשובה */
@@ -143,9 +142,8 @@ function handleAnswer(btn, chosen, correct) {
         btn.classList.add("correct");
         document.getElementById("feedback").innerText = "הצלחתם!";
         score++;
-        // קונפטי קטן משני הצדדים
-        createConfetti(btn, -1);
-        createConfetti(btn, 1);
+        // קונפטי בכל המסך
+        createConfettiScreen();
     } else {
         btn.classList.add("wrong");
         document.getElementById("feedback").innerText = "באסה.. טעיתם :(";
@@ -154,17 +152,16 @@ function handleAnswer(btn, chosen, correct) {
     document.getElementById("continueBtn").style.display = "inline-block";
 }
 
-// פונקציה ליצור קונפטי
-function createConfetti(btn, direction) {
-    for(let i=0;i<10;i++){
+// פונקציה ליצור קונפטי בכל המסך
+function createConfettiScreen() {
+    for(let i=0;i<50;i++){
         let c = document.createElement("div");
         c.className = "confetti";
         c.style.backgroundColor = `hsl(${Math.random()*360},70%,50%)`;
-        c.style.left = (btn.offsetLeft + btn.offsetWidth/2) + "px";
-        c.style.top = (btn.offsetTop + btn.offsetHeight/2) + "px";
-        c.style.transform = `translateX(${direction * (Math.random()*50)}px)`;
+        c.style.left = Math.random()*window.innerWidth + "px";
+        c.style.top = Math.random()*window.innerHeight + "px";
         document.body.appendChild(c);
-        setTimeout(()=>c.remove(),1000);
+        setTimeout(()=>c.remove(),2500); // נעלם אחרי 2.5 שניות
     }
 }
 
