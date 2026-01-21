@@ -12,7 +12,8 @@ body, html {
     overflow: hidden;
 }
 body {
-    background-image: url("https://source.unsplash.com/1920x1080/?galaxy,stars,nebula,space");
+    /* רקע התמונה שלך */
+    background-image: url("https://m.media-amazon.com/images/I/81ulx1Dk+HL._AC_UF894,1000_QL80_.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -43,14 +44,31 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     margin-top: 10px;
 }
 .blue-btn:hover { transform: scale(1.05); }
+
 .correct { background: #4CAF50 !important; color: white !important; }
 .wrong { background: #f44336 !important; color: white !important; }
+
 .feedback {
     margin-top: 10px;
     font-size: 22px;
     font-weight: bold;
 }
+
+/* סידור הכפתורים בתשובות */
+.answers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+.answers button {
+    flex: 1 1 40%;
+    max-width: 180px;
+}
+
 #continueBtn { display: none; }
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
@@ -117,7 +135,6 @@ function showQuestion() {
 }
 
 function handleAnswer(btn, chosen, correct) {
-    // נעילת כל הכפתורים
     Array.from(document.getElementById("answers").children).forEach(b => b.disabled = true);
 
     if(chosen === correct) {
