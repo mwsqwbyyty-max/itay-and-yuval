@@ -5,12 +5,7 @@
 <title>חידון חלל – כיתה ב!</title>
 <style>
 * { box-sizing: border-box; font-family: Arial, sans-serif; }
-body, html {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
+body, html { margin:0; width:100%; height:100%; overflow:hidden; }
 body {
     background-image: url("https://m.media-amazon.com/images/I/81ulx1Dk+HL._AC_UF894,1000_QL80_.jpg");
     background-size: cover;
@@ -41,23 +36,38 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     cursor: pointer;
     transition: transform 0.2s;
     margin-top: 10px;
+    position: relative;
 }
 .blue-btn:hover { transform: scale(1.05); }
 .correct { background: #4CAF50 !important; color: white !important; }
 .wrong { background: #f44336 !important; color: white !important; }
+
 .feedback { margin-top: 10px; font-size: 22px; font-weight: bold; }
-/* סידור הכפתורים בתשובות */
-.answers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
+
+.answers { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
 .answers button { flex: 1 1 40%; max-width: 180px; }
+
 #continueBtn { display: none; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes pop { from { transform: scale(0.9); opacity:0; } to { transform: scale(1); opacity:1; } }
+
+/* קונפטי */
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    animation: fall 1s linear forwards;
+}
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity:1; }
+    100% { transform: translateY(-80px) rotate(360deg); opacity:0; }
+}
+
+/* תו קטן מעל התשובה */
+.letter { position: absolute; top:-20px; left:10px; font-size:18px; font-weight:bold; }
 </style>
 </head>
 <body>
@@ -95,6 +105,7 @@ const questions = [
 
 let current = 0;
 let score = 0;
+const letters = ["א","ב","ג","ד"];
 
 function startQuiz() {
     document.getElementById("intro").style.display = "none";
@@ -112,10 +123,14 @@ function showQuestion() {
 
     let opts = [q.a, q.a+1, q.a-1, q.a+2].sort(() => Math.random() - 0.5);
 
-    opts.forEach(num => {
+    opts.forEach((num,i) => {
         let btn = document.createElement("button");
         btn.innerText = num;
         btn.className = "blue-btn";
+        let letter = document.createElement("div");
+        letter.className = "letter";
+        letter.innerText = letters[i];
+        btn.appendChild(letter);
         btn.onclick = () => handleAnswer(btn, num, q.a);
         answersDiv.appendChild(btn);
     });
@@ -128,12 +143,29 @@ function handleAnswer(btn, chosen, correct) {
         btn.classList.add("correct");
         document.getElementById("feedback").innerText = "הצלחתם!";
         score++;
+        // קונפטי קטן משני הצדדים
+        createConfetti(btn, -1);
+        createConfetti(btn, 1);
     } else {
         btn.classList.add("wrong");
         document.getElementById("feedback").innerText = "באסה.. טעיתם :(";
     }
 
     document.getElementById("continueBtn").style.display = "inline-block";
+}
+
+// פונקציה ליצור קונפטי
+function createConfetti(btn, direction) {
+    for(let i=0;i<10;i++){
+        let c = document.createElement("div");
+        c.className = "confetti";
+        c.style.backgroundColor = `hsl(${Math.random()*360},70%,50%)`;
+        c.style.left = (btn.offsetLeft + btn.offsetWidth/2) + "px";
+        c.style.top = (btn.offsetTop + btn.offsetHeight/2) + "px";
+        c.style.transform = `translateX(${direction * (Math.random()*50)}px)`;
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),1000);
+    }
 }
 
 function nextQuestion() {
@@ -149,6 +181,5 @@ function showResult() {
     `;
 }
 </script>
-
 </body>
 </html>
