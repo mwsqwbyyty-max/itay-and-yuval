@@ -2,101 +2,73 @@
 <html lang="he">
 <head>
 <meta charset="UTF-8">
-<title>חידון חלל – כיתה ב</title>
-
+<title>חידון חלל – כיתה ב!</title>
 <style>
-* {
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body, html {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
 
-body {
-    margin: 0;
-    height: 100vh;
-    background-image: url("https://source.unsplash.com/1600x900/?space,galaxy,stars");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fade 1.5s ease;
-}
+    body {
+        background-image: url("https://source.unsplash.com/1920x1080/?galaxy,stars,nebula,space");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 1.5s ease;
+    }
 
-.quiz-box {
-    width: 70%;
-    max-width: 720px;
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    animation: pop 0.8s ease;
-}
+    .box {
+        background: rgba(255,255,255,0.9);
+        width: 70%;
+        max-width: 700px;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        animation: pop 0.8s ease;
+    }
 
-.space-icon {
-    font-size: 60px;
-    margin-bottom: 10px;
-}
+    h1 { font-size: 32px; margin-bottom: 20px; }
+    .blue-btn {
+        background: #1e88e5;
+        color: white;
+        font-size: 24px;
+        padding: 15px 35px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .blue-btn:hover { transform: scale(1.05); }
 
-.question {
-    font-size: 30px;
-    margin: 20px 0;
-}
-
-.answers button {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    font-size: 22px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    background: #f2f2f2;
-    transition: transform 0.2s, background 0.2s;
-}
-
-.answers button:hover {
-    background: #e0e0e0;
-    transform: scale(1.03);
-}
-
-.blue-btn {
-    background: #1e88e5;
-    color: white;
-    font-size: 22px;
-    padding: 15px 35px;
-    border-radius: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-.blue-btn:hover {
-    transform: scale(1.05);
-}
-
-@keyframes fade {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-@keyframes pop {
-    from {transform: scale(0.9); opacity: 0;}
-    to {transform: scale(1); opacity: 1;}
-}
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes pop {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
 </style>
 </head>
 
 <body>
+<div class="box" id="intro">
+    <h1>שלום כיתה ב! אתם מוכנים לשאלון?</h1>
+    <button class="blue-btn" onclick="startQuiz()">כן!!!</button>
+</div>
 
-<div class="quiz-box" id="quiz">
-    <div class="space-icon" id="icon">🚀</div>
+<div class="box" id="quiz" style="display:none;">
     <div class="question" id="question"></div>
     <div class="answers" id="answers"></div>
 </div>
 
 <script>
-const icons = ["🚀","🪐","🌙","⭐","👨‍🚀"];
-
 const questions = [
     { q: "2 + 3 = ?", a: 5 },
     { q: "6 − 2 = ?", a: 4 },
@@ -115,47 +87,44 @@ const questions = [
     { q: "5 + 5 = ?", a: 10 }
 ];
 
-let i = 0;
+let current = 0;
 let score = 0;
 
+function startQuiz() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    showQuestion();
+}
+
 function showQuestion() {
-    document.getElementById("icon").innerText =
-        icons[Math.floor(Math.random() * icons.length)];
+    let q = questions[current];
+    document.getElementById("question").innerText = q.q;
+    let answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+    let opts = [q.a, q.a+1, q.a-1, q.a+2].sort(() => Math.random() - 0.5);
 
-    document.getElementById("question").innerText = questions[i].q;
-
-    const answers = document.getElementById("answers");
-    answers.innerHTML = "";
-
-    let correct = questions[i].a;
-    let options = [correct, correct+1, correct-1, correct+2]
-        .sort(() => Math.random() - 0.5);
-
-    options.forEach(num => {
-        const btn = document.createElement("button");
+    opts.forEach(num => {
+        let btn = document.createElement("button");
         btn.innerText = num;
+        btn.className = "blue-btn";
+        btn.style.background = "#f1f1f1";
+        btn.style.color = "#111";
         btn.onclick = () => {
-            if (num === correct) score++;
-            i++;
-            i < questions.length ? showQuestion() : showResult();
+            if (num === q.a) score++;
+            current++;
+            current < questions.length ? showQuestion() : showResult();
         };
-        answers.appendChild(btn);
+        answersDiv.appendChild(btn);
     });
 }
 
 function showResult() {
     document.getElementById("quiz").innerHTML = `
-        <div class="space-icon">🎉</div>
-        <h2>סיימת את החידון!</h2>
-        <p style="font-size:26px">
-        ענית נכון על <b>${score}</b> מתוך <b>${questions.length}</b>
-        </p>
-        <br>
+        <h1>✨ סיימתם!</h1>
+        <p style="font-size:26px;">עניתם נכון על ${score} מתוך ${questions.length}</p>
         <button class="blue-btn" onclick="location.reload()">לעשות מחדש?</button>
     `;
 }
-
-showQuestion();
 </script>
 
 </body>
