@@ -40,6 +40,7 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     border: none;
     cursor: pointer;
     transition: transform 0.2s;
+    margin-top: 10px;
 }
 .blue-btn:hover { transform: scale(1.05); }
 .correct { background: #4CAF50 !important; color: white !important; }
@@ -49,6 +50,7 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     font-size: 22px;
     font-weight: bold;
 }
+#continueBtn { display: none; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
@@ -64,6 +66,7 @@ h1 { font-size: 32px; margin-bottom: 20px; }
     <div class="question" id="question"></div>
     <div class="answers" id="answers"></div>
     <div class="feedback" id="feedback"></div>
+    <button class="blue-btn" id="continueBtn" onclick="nextQuestion()">המשך</button>
 </div>
 
 <script>
@@ -100,6 +103,7 @@ function showQuestion() {
     const answersDiv = document.getElementById("answers");
     answersDiv.innerHTML = "";
     document.getElementById("feedback").innerText = "";
+    document.getElementById("continueBtn").style.display = "none";
 
     let opts = [q.a, q.a+1, q.a-1, q.a+2].sort(() => Math.random() - 0.5);
 
@@ -107,25 +111,30 @@ function showQuestion() {
         let btn = document.createElement("button");
         btn.innerText = num;
         btn.className = "blue-btn";
-        btn.onclick = () => {
-            // בדיקה
-            if(num === q.a) {
-                btn.classList.add("correct");
-                document.getElementById("feedback").innerText = "הצלחתם!";
-                score++;
-            } else {
-                btn.classList.add("wrong");
-                document.getElementById("feedback").innerText = "באסה.. טעיתם :(";
-            }
-            // נעצר 1 שניה ואז ממשיכים
-            Array.from(answersDiv.children).forEach(b => b.disabled = true);
-            setTimeout(() => {
-                current++;
-                current < questions.length ? showQuestion() : showResult();
-            }, 1000);
-        };
+        btn.onclick = () => handleAnswer(btn, num, q.a);
         answersDiv.appendChild(btn);
     });
+}
+
+function handleAnswer(btn, chosen, correct) {
+    // נעילת כל הכפתורים
+    Array.from(document.getElementById("answers").children).forEach(b => b.disabled = true);
+
+    if(chosen === correct) {
+        btn.classList.add("correct");
+        document.getElementById("feedback").innerText = "הצלחתם!";
+        score++;
+    } else {
+        btn.classList.add("wrong");
+        document.getElementById("feedback").innerText = "באסה.. טעיתם :(";
+    }
+
+    document.getElementById("continueBtn").style.display = "inline-block";
+}
+
+function nextQuestion() {
+    current++;
+    current < questions.length ? showQuestion() : showResult();
 }
 
 function showResult() {
